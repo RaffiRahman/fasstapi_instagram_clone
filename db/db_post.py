@@ -5,13 +5,13 @@ from routers.schemas import PostBase
 import datetime
 
 
-def create(db: Session, request: PostBase):
+def create(db: Session, request: PostBase, user_id: int):
     new_post = DbPost(
         image_url = request.image_url,
         image_url_type =request.image_url_type,
         caption = request.caption,
         timestamp = datetime.datetime.now(),
-        user_id = request.creator_id
+        user_id = user_id
     )
     db.add(new_post)
     db.commit()

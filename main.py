@@ -12,9 +12,6 @@ app.include_router(post.router)
 app.include_router(comment.router)
 app.include_router(authentication.router)
 
-@app.get("/")
-def root():
-    return "Hello World!"
 
 models.Base.metadata.create_all(engine)
 

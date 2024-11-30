@@ -23,7 +23,10 @@ def create(request: PostBase,
     if not request.image_url_type in image_url_types:
         raise HTTPException(status_code= status.HTTP_422_UNPROCESSABLE_ENTITY,
                             detail="Parameter image_url_type can only take values 'absolute' or 'relative'.")
-    return db_post.create(db, request)
+    if request.creator_id != current_user.id:
+        raise HTTPException(status_code= status.HTTP_401_UNAUTHORIZED,
+                            detail="You are not authorized to create this post")
+    return db_post.create(db, request, current_user.id)
 
 @router.get('/all', response_model= List[PostDisplay])
 def posts(db: Session = Depends(get_db)):
